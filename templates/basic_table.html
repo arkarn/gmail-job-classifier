@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>From</th>
+        <th>Subject</th>
+        <th>Attachments</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for email in emails %}
+        <tr>
+          <td>{{ email.id }}</td>
+          <td>{{ email.from }}</td>
+          <td>{{ email.sub }}</td>
+          <td>{{ email.attachments }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    $(document).ready(function () {
+      $('#data').DataTable({
+        columns: [
+          {orderable: true, searchable: true},
+          null,
+          null,
+          null
+          ],
+      });
+    });
+  </script>
+{% endblock %}
