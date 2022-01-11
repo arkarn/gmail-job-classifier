@@ -45,7 +45,13 @@
 <main class="form-signin">
   <form action="/signin" method="POST">
     <h1 class="h3 mb-3 fw-normal">Sign in with gmail</h1>
-    <h9><a href="https://myaccount.google.com/lesssecureapps" target="_blank">Note: Enable less secure apps</a></h9>
+    <h9>Note: 
+      <ul style="list-style: none;">
+        <li><a href="https://myaccount.google.com/lesssecureapps" target="_blank">Enable less secure apps</a></li>
+        <li><a href="https://accounts.google.com/DisplayUnlockCaptcha" target="_blank">Allow access</a></li>
+      </ul>
+      
+    </h9>
 
     <div class="form-floating">
       <input type="email" name="username" class="form-control" id="floatingInput" placeholder="name@example.com">

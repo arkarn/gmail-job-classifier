@@ -26,7 +26,7 @@ def signin():
         emails = []
         with MailBox('imap.gmail.com').login(username, password, 'INBOX') as mailbox:
             print("success")
-            for i, msg in enumerate(mailbox.fetch(bulk=True, limit=4, reverse=True)):
+            for i, msg in enumerate(mailbox.fetch(bulk=True, limit=20, reverse=True)):
                 email = {'attachments':[], 'from':msg.from_, 'sub':msg.subject, 'job':""}
                 email['id'] = i+1
                 emails.append(email)
