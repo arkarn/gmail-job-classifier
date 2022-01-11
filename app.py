@@ -26,7 +26,7 @@ def signin():
         emails = []
         with MailBox('imap.gmail.com').login(username, password, 'INBOX') as mailbox:
             print("success")
-            for i, msg in enumerate(mailbox.fetch(bulk=True, limit=20, reverse=True)):
+            for i, msg in enumerate(mailbox.fetch(bulk=True, limit=4, reverse=True)):
                 email = {'attachments':[], 'from':msg.from_, 'sub':msg.subject, 'job':""}
                 email['id'] = i+1
                 emails.append(email)
@@ -42,13 +42,24 @@ def signin():
 
 def classify(subject, text):
     if ('job' in subject) | ('job' in text):
-        ll = [difflib.SequenceMatcher(a=subject.lower() +" "+ text.lower(), b=b.lower()).ratio() for b in buckets]
+        mailtext = subject.lower() +" "+ text.lower()
+        ll = scorer(mailtext)
+        #print(f"a={mailtext}\nll={ll}")
         ind = ll.index(max(ll))
-        print(f"index: {ind}")
+        #print(f"index: {ind}")
         return jds[ind]['jobid']+" ("+jds[ind]['position']+")"
     else: return ""
 
-    
+
+def scorer(content):
+    scores=[]
+    for bucket in buckets:
+        score=0
+        for word in bucket.split():
+            if word.lower() in content.lower():
+                score+=1
+        scores.append(score)
+    return scores
             
     
 if __name__ == '__main__':
