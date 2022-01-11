@@ -9,6 +9,7 @@
         <th>From</th>
         <th>Subject</th>
         <th>Attachments</th>
+        <th>Matching Job</th>
       </tr>
     </thead>
     <tbody>
@@ -18,6 +19,7 @@
           <td>{{ email.from }}</td>
           <td>{{ email.sub }}</td>
           <td>{{ email.attachments }}</td>
+          <td>{{ email.job }}</td>
         </tr>
       {% endfor %}
     </tbody>
@@ -32,7 +34,8 @@
           {orderable: true, searchable: true},
           null,
           null,
-          null
+          null,
+          {orderable: true, searchable: true}
           ],
       });
     });
