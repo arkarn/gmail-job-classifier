@@ -36,16 +36,17 @@ def signin():
         emails = []
         with MailBox('imap.gmail.com').login(username, password, 'INBOX') as mailbox:
             print("success")
-            for i, msg in enumerate(mailbox.fetch(bulk=True, limit=20, reverse=True)):
-                email = {'attachments':[], 'from':msg.from_, 'sub':msg.subject, 'job':""}
-                email['id'] = i+1
-                emails.append(email)
-                for att in msg.attachments:
-                    email['attachments'].append(att.filename)
-                    if (att.filename is not None) and (att.size < 1e7):
-                        #print('content_id:', i+1, att.content_id)
-                        session['attachment_files'].append((i+1, att.filename, att.payload))
-                email['job'] = classify(msg.subject, msg.text)
+            for i, msg in enumerate(mailbox.fetch(bulk=True, limit=50, reverse=True)):
+                if len(msg.attachments)>0:
+                    email = {'attachments':[], 'from':msg.from_, 'sub':msg.subject, 'job':""}
+                    email['id'] = i+1
+                    emails.append(email)
+                    for att in msg.attachments:
+                        email['attachments'].append(att.filename)
+                        if (att.filename is not None) and (att.size < 1e7):
+                            #print('content_id:', i+1, att.content_id)
+                            session['attachment_files'].append((i+1, att.filename, att.payload))
+                    email['job'] = classify(msg.subject, msg.text)
         return render_template('basic_table.html', title='Gmail Jobs classifier',
                            emails=emails)
 
