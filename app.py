@@ -1,16 +1,25 @@
-from flask import Flask, request, json, redirect, url_for
+import zipfile
+from flask import Flask, request, json, redirect, url_for, send_file, session
 from flask import render_template
 from imap_tools import MailBox
 from job_descriptions import jds
+from io import BytesIO    
+import os
 import difflib
 
+from flask_session import Session
+  
 app = Flask(__name__)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
+
+app.secret_key = os.urandom(12).hex()
 app.debug = True
 
 
 buckets = [jd['jobid']+" "+jd['position']+" "+jd['keywords'] for jd in jds]
-print(buckets)
-
 
 
 @app.route("/")
@@ -19,6 +28,7 @@ def home():
 
 @app.route("/signin", methods=['POST'])
 def signin():
+    session['attachment_files'] = []
     username = request.form['username']
     password = request.form['password']
     if username and password:
@@ -32,12 +42,29 @@ def signin():
                 emails.append(email)
                 for att in msg.attachments:
                     email['attachments'].append(att.filename)
+                    if (att.filename is not None) and (att.size < 1e7):
+                        #print('content_id:', i+1, att.content_id)
+                        session['attachment_files'].append((i+1, att.filename, att.payload))
                 email['job'] = classify(msg.subject, msg.text)
         return render_template('basic_table.html', title='Gmail Jobs classifier',
                            emails=emails)
 
 
     return json.dumps({'validation' : False})
+
+@app.route("/download", methods=['POST'])
+def download():
+    ids = request.form.getlist('download_checkbox')
+    email_index_to_download = [int(id[3:]) for id in ids]
+    memory_file = BytesIO()
+    with zipfile.ZipFile(memory_file, 'w') as zf:
+        for emailIndex, filename, content in session['attachment_files']:
+            if emailIndex in email_index_to_download:
+                zf.writestr(filename, content)
+    memory_file.seek(0)
+    return send_file(memory_file, attachment_filename='export.zip', as_attachment=True)
+        
+
 
 
 def classify(subject, text):

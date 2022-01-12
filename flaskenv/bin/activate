@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Volumes/GoogleDrive/Other computers/My MacBook Pro/workspace/try-docker/python-flask-app/flaskenv"
+VIRTUAL_ENV="/Volumes/GoogleDrive/Other computers/My MacBook Pro/workspace/try-docker/gmail-job-classifier/flaskenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

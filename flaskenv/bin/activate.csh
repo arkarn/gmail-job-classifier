@@ -8,7 +8,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/Volumes/GoogleDrive/Other computers/My MacBook Pro/workspace/try-docker/python-flask-app/flaskenv"
+setenv VIRTUAL_ENV "/Volumes/GoogleDrive/Other computers/My MacBook Pro/workspace/try-docker/gmail-job-classifier/flaskenv"
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"

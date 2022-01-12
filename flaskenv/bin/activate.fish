@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Volumes/GoogleDrive/Other computers/My MacBook Pro/workspace/try-docker/python-flask-app/flaskenv"
+set -gx VIRTUAL_ENV "/Volumes/GoogleDrive/Other computers/My MacBook Pro/workspace/try-docker/gmail-job-classifier/flaskenv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
